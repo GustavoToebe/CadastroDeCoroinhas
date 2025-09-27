@@ -1,4 +1,4 @@
-package dev.gustavo.cadastrodecoroinhas;
+package dev.gustavo.cadastrodecoroinhas.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
