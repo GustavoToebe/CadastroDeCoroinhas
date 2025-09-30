@@ -19,7 +19,8 @@ public class PessoaModel {
     @Column(unique = true)
     private String cpf;
     private Integer idade;
-    private String Cidade;
+    private String cidade;
+    private Integer tempoetapa;
 
     //Muitos para um
     @ManyToOne  // Uma pessoa tem um unico compromisso

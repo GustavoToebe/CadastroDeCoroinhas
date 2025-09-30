@@ -1,5 +1,6 @@
 package dev.gustavo.cadastrodecoroinhas.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class CompromissosModel {
 
     //Um para muitos
     @OneToMany(mappedBy = "compromisso") // Um comprisso pode ter várias pessoas
+    @JsonIgnore
     private List<PessoaModel> participantes;
 
 }
