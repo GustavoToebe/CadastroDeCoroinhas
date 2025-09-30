@@ -1,5 +1,7 @@
 package dev.gustavo.cadastrodecoroinhas.Service;
 
+import dev.gustavo.cadastrodecoroinhas.DTO.PessoaDTO;
+import dev.gustavo.cadastrodecoroinhas.Mapper.PessoaMapper;
 import dev.gustavo.cadastrodecoroinhas.Model.PessoaModel;
 import dev.gustavo.cadastrodecoroinhas.Repository.PessoaRepository;
 import org.springframework.stereotype.Service;
@@ -11,9 +13,11 @@ import java.util.Optional;
 public class PessoaService {
 
     private final PessoaRepository pessoaRepository;
+    private final PessoaMapper pessoaMapper;
 
-    public PessoaService(PessoaRepository pessoaRepository) {
+    public PessoaService(PessoaRepository pessoaRepository, PessoaMapper pessoaMapper) {
         this.pessoaRepository = pessoaRepository;
+        this.pessoaMapper = pessoaMapper;
     }
 
     public List<PessoaModel> listarPessoa(){
@@ -26,8 +30,10 @@ public class PessoaService {
         //return optionalPessoaModel.orElse(null);
     }
 
-    public PessoaModel salvar(PessoaModel pessoaModel){
-        return pessoaRepository.save(pessoaModel);
+    public PessoaDTO salvar(PessoaDTO pessoaDTO){
+        PessoaModel pessoaModel = pessoaMapper.map(pessoaDTO);
+        pessoaModel = pessoaRepository.save(pessoaModel);
+        return pessoaMapper.map(pessoaModel);
     }
 
     public PessoaModel editar(Long id, PessoaModel pessoaModelAtualizado){
