@@ -32,7 +32,7 @@ public class PessoaController {
     }
 
     @GetMapping("/getall")
-    public List<PessoaModel> listarPessoa(){
+    public List<PessoaDTO> listarPessoa(){
         return pessoaService.listarPessoa();
     }
 

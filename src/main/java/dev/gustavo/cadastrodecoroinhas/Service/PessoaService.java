@@ -6,6 +6,7 @@ import dev.gustavo.cadastrodecoroinhas.Model.PessoaModel;
 import dev.gustavo.cadastrodecoroinhas.Repository.PessoaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +21,16 @@ public class PessoaService {
         this.pessoaMapper = pessoaMapper;
     }
 
-    public List<PessoaModel> listarPessoa(){
-        return pessoaRepository.findAll();
+    public List<PessoaDTO> listarPessoa(){
+        List<PessoaModel> pessoaModelList =  pessoaRepository.findAll();
+        List<PessoaDTO> pessoaDTOList = new ArrayList<>();
+
+        for (PessoaModel pessoaModel : pessoaModelList ){
+            PessoaDTO pessoaDTO = pessoaMapper.map(pessoaModel);
+            pessoaDTOList.add(pessoaDTO);
+        }
+
+        return pessoaDTOList;
     }
 
     public Optional<PessoaModel> getbyidpessoa(Long id){
