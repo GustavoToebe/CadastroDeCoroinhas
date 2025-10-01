@@ -37,7 +37,7 @@ public class PessoaController {
     }
 
     @GetMapping("/{id}")
-    public Optional<PessoaModel> getbyid(@PathVariable Long id){
+    public PessoaDTO getbyid(@PathVariable Long id){
         return pessoaService.getbyidpessoa(id);
     }
 
@@ -47,7 +47,7 @@ public class PessoaController {
     }
 
     @PutMapping("/editar")
-    public PessoaModel editar(@PathVariable Long id, @RequestBody PessoaModel pessoaModel){
+    public PessoaDTO editar(@PathVariable Long id, @RequestBody PessoaDTO pessoaModel){
         return pessoaService.editar(id, pessoaModel);
     }
 

@@ -6,9 +6,9 @@ import dev.gustavo.cadastrodecoroinhas.Model.PessoaModel;
 import dev.gustavo.cadastrodecoroinhas.Repository.PessoaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PessoaService {
@@ -23,20 +23,12 @@ public class PessoaService {
 
     public List<PessoaDTO> listarPessoa(){
         List<PessoaModel> pessoaModelList =  pessoaRepository.findAll();
-        List<PessoaDTO> pessoaDTOList = new ArrayList<>();
-
-        for (PessoaModel pessoaModel : pessoaModelList ){
-            PessoaDTO pessoaDTO = pessoaMapper.map(pessoaModel);
-            pessoaDTOList.add(pessoaDTO);
-        }
-
-        return pessoaDTOList;
+        return pessoaModelList.stream().map(pessoaMapper::map).collect(Collectors.toList());
     }
 
-    public Optional<PessoaModel> getbyidpessoa(Long id){
-        return pessoaRepository.findById(id);
-        //Optional<PessoaModel> optionalPessoaModel = pessoaRepository.findById(id);
-        //return optionalPessoaModel.orElse(null);
+    public PessoaDTO getbyidpessoa(Long id){
+        Optional<PessoaModel> pessoaporid = pessoaRepository.findById(id);
+        return pessoaporid.map(pessoaMapper::map).orElse(null);
     }
 
     public PessoaDTO salvar(PessoaDTO pessoaDTO){
@@ -45,11 +37,15 @@ public class PessoaService {
         return pessoaMapper.map(pessoaModel);
     }
 
-    public PessoaModel editar(Long id, PessoaModel pessoaModelAtualizado){
-        if (pessoaRepository.existsById(id)){
-                pessoaModelAtualizado.setId(id);
-                return pessoaRepository.save(pessoaModelAtualizado);
+    public PessoaDTO editar(Long id, PessoaDTO pessoaDTO){
+        Optional<PessoaModel> pessoaExistente = pessoaRepository.findById(id);
+        if (pessoaExistente.isPresent()){
+            PessoaModel pessoaModelAtualizada = pessoaMapper.map(pessoaDTO);
+            pessoaModelAtualizada.setId(pessoaDTO.getId());
+            PessoaModel pessoaModel = pessoaRepository.save(pessoaModelAtualizada);
+            return pessoaMapper.map(pessoaModel);
         }
+
         return null;
     }
 
